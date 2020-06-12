@@ -4,12 +4,15 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import Vue from 'vue';
+import axios from 'axios';
 import App from './App';
 import router from './router';
 
 
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
+
+axios.defaults.baseURL = 'http://localhost:4000';
 
 /* eslint-disable no-new */
 new Vue({
