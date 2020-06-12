@@ -31,11 +31,12 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    onSubmit(event) {
       // Prevent immediate submission of form
+      event.preventDefault();
       userService.signIn(this.form.username, this.form.password).then(((user) => {
         if (user) {
-          this.$router.push({ name: 'Dashboard' });
+          this.$router.push({ name: 'EventPage', params: { username: this.form.username } });
         }
       })).catch((err) => {
         const lame = err;

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import loginpage from '@/components/loginpage';
-import eventpage from '@/components/eventpage';
+import eventpage from '@/views/eventDashboard';
 
 Vue.use(Router);
 
@@ -14,8 +14,8 @@ export default new Router({
       component: loginpage,
     },
     {
-      path: '/EventPage',
-      name: 'events',
+      path: '/EventPage/:username',
+      name: 'EventPage',
       component: eventpage,
     },
   ],
