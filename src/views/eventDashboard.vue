@@ -27,7 +27,7 @@ import eventService from '../services/eventServices';
 export default {
   data() {
     return {
-      user: this.$route.params.username,
+      user: localStorage.getItem('user').username,
       addName: '',
       addDate: '',
       events: [],

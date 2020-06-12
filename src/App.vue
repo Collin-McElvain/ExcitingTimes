@@ -14,7 +14,7 @@ export default {
   name: 'app',
   data() {
     return {
-      title: 'Excitement Tracker',
+      title: 'Exciting Times',
     };
   },
 };

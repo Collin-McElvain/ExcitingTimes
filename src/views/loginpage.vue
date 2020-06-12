@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    <b-card bg-variant='dark' text-variant='white' img-src="@/assets/time.png" img-top>
+    <b-card bg-variant='dark' text-variant='white'>
       <b-form @submit="onSubmit">
         <b-form-group id="input-1" label="Username:" label-for="username" label-cols-sm="4" label-align-sm="right">
           <b-form-input id="username" required v-model="form.username" placeholder="Enter username"></b-form-input>
@@ -35,13 +35,20 @@ export default {
     onSubmit(event) {
       // Prevent immediate submission of form
       event.preventDefault();
-      userService.signIn(this.form.username, this.form.password).then((user) => {
-        if (user) {
-          this.$router.push({ name: 'EventPage', params: { username: this.form.username } });
+
+      // Call to server signin function
+      userService.signIn(this.form.username, this.form.password).then((res) => {
+        if (res.auth) {
+          localStorage.setItem('user', JSON.stringify(res.user));
+          localStorage.setItem('jwt', res.token);
+          this.$router.push({ name: 'EventPage' });
         }
-      }).catch((err) => {
-        const lame = err;
-        return lame;
+      }).catch(() => {
+        // Throw error back to user
+        this.$bvToast.toast('Your username or password is incorrect.', {
+          title: 'ERROR',
+          autoHideDelay: 3000,
+        });
       });
     },
   },

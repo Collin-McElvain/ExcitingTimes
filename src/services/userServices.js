@@ -10,4 +10,10 @@ export default {
       password,
     }).then(response => response.data);
   },
+  CreateUser(username, password) {
+    return axios.post('/api/createUser', {
+      username,
+      password,
+    }).then(response => response.data);
+  },
 };
