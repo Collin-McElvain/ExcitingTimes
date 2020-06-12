@@ -1,7 +1,8 @@
 <template>
     <div>
         <b-list-group>
-            <event v-for='(event) in events' :newEvent='event' :key="event.id" :datakey='event.id'></event>
+            <event v-for='(event) in events' :newEvent='event' :key="event.id" :datakey='event.id'
+            @item-deleted="onEventDeleted"></event>
         </b-list-group>       
     </div>
 </template>
@@ -13,6 +14,11 @@ import './event.vue';
 
 const eventList = Vue.component('eventList', {
   props: ['events'],
+  methods: {
+    onEventDeleted(event) {
+      this.$emit('item-deleted', event);
+    },
+  },
 });
 export default eventList;
 </script>

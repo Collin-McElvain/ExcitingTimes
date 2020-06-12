@@ -19,4 +19,11 @@ export default {
       },
     }).then(response => response.data);
   },
+
+  // Delete a single event
+  deleteEvent(id) {
+    return axios.post('api/deleteEvent', {
+      id,
+    }).then(response => response.data);
+  },
 };

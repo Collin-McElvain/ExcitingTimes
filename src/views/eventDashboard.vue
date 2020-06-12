@@ -12,7 +12,7 @@
           </div>
 
           <div>
-              <eventList :events="events"></eventList>
+              <eventList :events="events" @item-deleted="removeEvent"></eventList>
           </div>
         </section>
   </div>
@@ -59,6 +59,18 @@ export default {
               date: event.date,
               user: this.user,
             }];
+          }
+        }).catch((err) => {
+        const lame = err;
+        return lame;
+      });
+    },
+    removeEvent(deleteEvent) {
+      eventService.deleteEvent(deleteEvent.id).then(
+        (response) => {
+          if (response) {
+            const filterEvents = this.events.filter(curEvent => curEvent.id !== deleteEvent.id);
+            this.events = filterEvents;
           }
         }).catch((err) => {
         const lame = err;
