@@ -34,7 +34,9 @@ export default {
     };
   },
   created() {
+    // This method is called before render.
     const that = this;
+    // Get the events loaded as user logs in
     eventService.getEvents(this.user).then((events) => {
       if (events) {
         that.events = events;
@@ -45,10 +47,12 @@ export default {
     });
   },
   methods: {
+    // Method to add events
     addEventHandler() {
       eventService.createEvent(this.addName, this.addDate, this.user).then(
         (event) => {
           if (event) {
+            // Put new event here, and prevent extra call
             this.events = [...this.events, {
               id: event.id,
               name: event.name,
