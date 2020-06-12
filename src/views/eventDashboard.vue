@@ -3,10 +3,10 @@
         <section class="app-content">
           <div class="create-event-wrapper">
             <b-input-group>
-                <b-form-input type='text' ref='eventName' placeholder='Event Description'></b-form-input>
-                <b-form-input type='date' ref='eventDate'></b-form-input>
+                <b-form-input type='text' v-model='addName' placeholder='Event Description'></b-form-input>
+                <b-form-input type='date' v-model='addDate'></b-form-input>
                 <b-input-group-append>
-                    <b-button variant='outline-secondary' @press='addEventHandler'>Add Event</b-button>
+                    <b-button variant='outline-secondary' @click='addEventHandler'>Add Event</b-button>
                 </b-input-group-append>
             </b-input-group>
           </div>
@@ -22,47 +22,44 @@
 <script>
 // eslint-disable-next-line import/extensions
 import '../components/eventList.vue';
+import eventService from '../services/eventServices';
 
 export default {
   data() {
     return {
       user: this.$route.params.username,
-      events: [
-        {
-          id: '1',
-          name: 'lame',
-          date: '03/22/2020',
-          user: 'StankyStarfish',
-        },
-        {
-          id: '2',
-          name: 'stupid',
-          date: '09/05/2020',
-          user: 'StankyStarfish',
-        },
-        {
-          id: '3',
-          name: 'dumb',
-          date: '06/28/2020',
-          user: 'StankyStarfish',
-        },
-        {
-          id: '4',
-          name: 'yay',
-          date: '07/11/2020',
-          user: 'StankyStarfish',
-        },
-      ],
+      addName: '',
+      addDate: '',
+      events: [],
     };
+  },
+  created() {
+    const that = this;
+    eventService.getEvents(this.user).then((events) => {
+      if (events) {
+        that.events = events;
+      }
+    }).catch((err) => {
+      const lame = err;
+      return lame;
+    });
   },
   methods: {
     addEventHandler() {
-      this.events = [...this.events, {
-        id: (this.events.length + 1).toString(),
-        name: this.$refs.eventName.value,
-        date: this.$refs.eventDate.value,
-        user: this.user,
-      }];
+      eventService.createEvent(this.addName, this.addDate, this.user).then(
+        (event) => {
+          if (event) {
+            this.events = [...this.events, {
+              id: event.id,
+              name: event.name,
+              date: event.date,
+              user: this.user,
+            }];
+          }
+        }).catch((err) => {
+        const lame = err;
+        return lame;
+      });
     },
   },
 };

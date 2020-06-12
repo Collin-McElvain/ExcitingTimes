@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import loginpage from '@/components/loginpage';
+import loginpage from '@/views/loginpage';
 import eventpage from '@/views/eventDashboard';
 
 Vue.use(Router);

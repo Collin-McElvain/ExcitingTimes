@@ -8,7 +8,7 @@
                 <counter :time="minutes" :valueName="valueName"></counter>
                 <counter :time="seconds" :valueName="valueName"></counter>
             </b-card> -->
-            <span>{{Date.Parse(event.date)}}</span>
+            <span>{{event.date}}</span>
         </div>
     </b-list-group-item>
 </template>
@@ -21,7 +21,7 @@ const event = Vue.component('event', {
   props: ['event', 'datakey'],
   data() {
     return {
-      date: Date.parse(event.date),
+      date: event.date,
     };
   },
 });
