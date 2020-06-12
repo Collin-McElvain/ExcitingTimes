@@ -39,7 +39,7 @@ export default {
       // Call to server signin function
       userService.signIn(this.form.username, this.form.password).then((res) => {
         if (res.auth) {
-          localStorage.setItem('user', JSON.stringify(res.user));
+          localStorage.setItem('user', res.user);
           localStorage.setItem('jwt', res.token);
           this.$router.push({ name: 'EventPage' });
         }

@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
     // Kick user to login page if they do not have a JSONWebToken
     if (localStorage.getItem('jwt') == null) {
       next({
-        path: '/login',
+        path: '/',
         params: { nextUrl: to.fullPath },
       });
     } else {

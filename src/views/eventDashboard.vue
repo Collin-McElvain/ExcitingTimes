@@ -27,7 +27,7 @@ import eventService from '../services/eventServices';
 export default {
   data() {
     return {
-      user: localStorage.getItem('user').username,
+      user: localStorage.getItem('user'),
       addName: '',
       addDate: '',
       events: [],
