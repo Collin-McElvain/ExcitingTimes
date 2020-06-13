@@ -1,3 +1,4 @@
+
 <template>
   <div>
         <section class="app-content">
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+/* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line import/extensions
 import '../components/eventList.vue';
 import eventService from '../services/eventServices';
@@ -34,6 +36,7 @@ export default {
     };
   },
   created() {
+    this.$emit('logoutBtn', true);
     // This method is called before render.
     const that = this;
     // Get the events loaded as user logs in
@@ -42,39 +45,70 @@ export default {
         that.events = events;
       }
     }).catch((err) => {
-      const lame = err;
-      return lame;
+      if (!err.response.data.success) {
+        // Token is not authenticated or there is not a token.
+        that.$emit('logoutDash');
+      } else {
+        this.$bvToast.toast(err.message, {
+          title: 'ERROR',
+          autoHideDelay: 3000,
+        });
+      }
     });
   },
   methods: {
     // Method to add events
     addEventHandler() {
+      if (this.addName === '' || this.addDate === '') {
+        this.$bvToast.toast('Fill out form completely', {
+          title: 'ERROR',
+          autoHideDelay: 3000,
+        });
+        return;
+      }
       eventService.createEvent(this.addName, this.addDate, this.user).then(
         (event) => {
           if (event) {
             // Put new event here, and prevent extra call
             this.events = [...this.events, {
-              id: event.id,
+              _id: event._id,
               name: event.name,
               date: event.date,
               user: this.user,
             }];
+            this.addName = '';
+            this.addDate = '';
           }
         }).catch((err) => {
-        const lame = err;
-        return lame;
+        if (!err.response.data.success) {
+        // Token is not authenticated or there is not a token.
+          this.$emit('logoutDash');
+        } else {
+          this.$bvToast.toast(err.message, {
+            title: 'ERROR',
+            autoHideDelay: 3000,
+          });
+        }
       });
     },
     removeEvent(deleteEvent) {
-      eventService.deleteEvent(deleteEvent.id).then(
+      const that = this;
+      eventService.deleteEvent(deleteEvent._id).then(
         (response) => {
           if (response) {
-            const filterEvents = this.events.filter(curEvent => curEvent.id !== deleteEvent.id);
-            this.events = filterEvents;
+            const filterEvents = that.events.filter(curEvent => curEvent._id !== deleteEvent._id);
+            that.events = filterEvents;
           }
         }).catch((err) => {
-        const lame = err;
-        return lame;
+        if (!err.response.data.success) {
+        // Token is not authenticated or there is not a token.
+          that.$emit('logoutDash');
+        } else {
+          this.$bvToast.toast(err.message, {
+            title: 'ERROR',
+            autoHideDelay: 3000,
+          });
+        }
       });
     },
   },

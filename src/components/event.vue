@@ -13,6 +13,7 @@
 </template>
 
 <script>
+/* eslint-disable no-underscore-dangle */
 import Vue from 'vue';
 import './counter';
 
@@ -57,7 +58,7 @@ const event = Vue.component('event', {
       }
     },
     onDelete() {
-      this.$emit('item-deleted', { id: this.newEvent.id });
+      this.$emit('item-deleted', { _id: this.newEvent._id });
     },
   },
 });

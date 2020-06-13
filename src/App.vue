@@ -1,10 +1,11 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <header>
       <span>{{title}}</span>
+      <b-button style="position:absolute; right: 10px;" v-if="userVisible" @click="logout" >Logout</b-button>
     </header>
     <main>
-      <router-view></router-view>
+      <router-view @logoutBtn="logoutBtn" @logoutDash="logout"></router-view>
     </main>
   </div>
 </template>
@@ -15,7 +16,17 @@ export default {
   data() {
     return {
       title: 'Exciting Times',
+      userVisible: false,
     };
+  },
+  methods: {
+    logoutBtn(value) {
+      this.userVisible = value;
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.push({ name: 'login' });
+    },
   },
 };
 </script>
@@ -41,13 +52,13 @@ main {
 header {
   margin: 0;
   height: 56px;
-  padding: 0 16px 0 24px;
+  padding: 10px 16px 10px 24px;
   background-color: #35495E;
   color: #ffffff;
 }
 
 header span {
-  display: block;
+  display: contents;
   position: relative;
   font-size: 20px;
   line-height: 1;

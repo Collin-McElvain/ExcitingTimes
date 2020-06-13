@@ -8,6 +8,8 @@ export default {
       name,
       date,
       username,
+    },
+    {
       headers: {
         'x-access-token': localStorage.getItem('jwt'),
       },
@@ -30,6 +32,8 @@ export default {
   deleteEvent(id) {
     return axios.post('api/deleteEvent', {
       id,
+    },
+    {
       headers: {
         'x-access-token': localStorage.getItem('jwt'),
       },

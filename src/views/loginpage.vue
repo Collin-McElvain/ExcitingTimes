@@ -30,6 +30,9 @@ export default {
       msg: 'Excitement Tracker',
     };
   },
+  created() {
+    this.$emit('logoutBtn', false);
+  },
   methods: {
     // Submission call to db for login check
     onSubmit(event) {

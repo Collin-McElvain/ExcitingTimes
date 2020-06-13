@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     // Continue route
-    next();
+    next({ name: 'login' });
   }
 });
 

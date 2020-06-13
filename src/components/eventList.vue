@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-list-group>
-            <event v-for='(event) in events' :newEvent='event' :key="event.id" :datakey='event.id'
+            <event v-for='(event) in events' :newEvent='event' :key="event._id" :datakey='event._id'
             @item-deleted="onEventDeleted"></event>
         </b-list-group>       
     </div>
