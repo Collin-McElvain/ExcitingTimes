@@ -5,7 +5,8 @@
           <div class="create-event-wrapper">
             <b-input-group>
                 <b-form-input type='text' v-model='addName' placeholder='Event Description'></b-form-input>
-                <b-form-input type='date' v-model='addDate'></b-form-input>
+                <b-form-datepicker v-model='addDate' :min="min"></b-form-datepicker>
+                <b-form-timepicker v-model='addTime' :disabled="disabled" locale="en"></b-form-timepicker>
                 <b-input-group-append>
                     <b-button variant='outline-secondary' @click='addEventHandler'>Add Event</b-button>
                 </b-input-group-append>
@@ -28,11 +29,17 @@ import eventService from '../services/eventServices';
 
 export default {
   data() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // 15th two months prior
+    const minDate = new Date(today);
     return {
       user: localStorage.getItem('user'),
       addName: '',
       addDate: '',
+      addTime: '00:00:00',
       events: [],
+      min: minDate,
     };
   },
   created() {
@@ -66,7 +73,7 @@ export default {
         });
         return;
       }
-      eventService.createEvent(this.addName, this.addDate, this.user).then(
+      eventService.createEvent(this.addName, this.fullDate, this.user).then(
         (event) => {
           if (event) {
             // Put new event here, and prevent extra call
@@ -110,6 +117,14 @@ export default {
           });
         }
       });
+    },
+  },
+  computed: {
+    disabled() {
+      return this.addDate === '';
+    },
+    fullDate() {
+      return `${this.addDate} ${this.addTime}`;
     },
   },
 };
