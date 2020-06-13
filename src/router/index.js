@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import loginpage from '@/views/loginpage';
 import eventpage from '@/views/eventDashboard';
+import registerpage from '@/views/registerpage';
 
 Vue.use(Router);
 
@@ -16,14 +17,14 @@ const router = new Router({
         guest: true,
       },
     },
-    // {
-    //   path: '/Register',
-    //   name: 'register',
-    //   component: registerpage,
-    //   meta: {
-    //     guest: true,
-    //   },
-    // },
+    {
+      path: '/Register',
+      name: 'register',
+      component: registerpage,
+      meta: {
+        guest: true,
+      },
+    },
     {
       path: '/EventPage',
       name: 'EventPage',
