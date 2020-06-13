@@ -45,8 +45,8 @@ body {
 
 main {
   text-align: center;
-  margin-top: 40px;
-  background-color: ;
+  padding-top: 20px;
+  background-color: darkgrey;
 }
 
 header {

@@ -1,4 +1,3 @@
-
 <template>
   <div>
         <section class="app-content">
@@ -8,13 +7,13 @@
                 <b-form-datepicker v-model='addDate' :min="min"></b-form-datepicker>
                 <b-form-timepicker v-model='addTime' :disabled="disabled" locale="en"></b-form-timepicker>
                 <b-input-group-append>
-                    <b-button variant='outline-secondary' @click='addEventHandler'>Add Event</b-button>
+                    <b-button variant='success' @click='addEventHandler'>Add Event</b-button>
                 </b-input-group-append>
             </b-input-group>
           </div>
 
           <div>
-              <eventList :events="events" @item-deleted="removeEvent"></eventList>
+              <eventList :events="events" @item-deleted="removeEvent" @item-edit="editEvent"></eventList>
           </div>
         </section>
   </div>
@@ -42,26 +41,11 @@ export default {
       min: minDate,
     };
   },
+  // This method is called before render.
   created() {
     this.$emit('logoutBtn', true);
-    // This method is called before render.
-    const that = this;
     // Get the events loaded as user logs in
-    eventService.getEvents(this.user).then((events) => {
-      if (events) {
-        that.events = events;
-      }
-    }).catch((err) => {
-      if (!err.response.data.success) {
-        // Token is not authenticated or there is not a token.
-        that.$emit('logoutDash');
-      } else {
-        this.$bvToast.toast(err.message, {
-          title: 'ERROR',
-          autoHideDelay: 3000,
-        });
-      }
-    });
+    this.refresh();
   },
   methods: {
     // Method to add events
@@ -77,12 +61,7 @@ export default {
         (event) => {
           if (event) {
             // Put new event here, and prevent extra call
-            this.events = [...this.events, {
-              _id: event._id,
-              name: event.name,
-              date: event.date,
-              user: this.user,
-            }];
+            this.refresh();
             this.addName = '';
             this.addDate = '';
           }
@@ -103,13 +82,46 @@ export default {
       eventService.deleteEvent(deleteEvent._id).then(
         (response) => {
           if (response) {
-            const filterEvents = that.events.filter(curEvent => curEvent._id !== deleteEvent._id);
-            that.events = filterEvents;
+            this.refresh();
           }
         }).catch((err) => {
         if (!err.response.data.success) {
         // Token is not authenticated or there is not a token.
           that.$emit('logoutDash');
+        } else {
+          this.$bvToast.toast(err.message, {
+            title: 'ERROR',
+            autoHideDelay: 3000,
+          });
+        }
+      });
+    },
+    refresh() {
+      eventService.getEvents(this.user).then((events) => {
+        if (events) {
+          this.events = events;
+        }
+      }).catch((err) => {
+        if (!err.response.data.success) {
+        // Token is not authenticated or there is not a token.
+          this.$emit('logoutDash');
+        } else {
+          this.$bvToast.toast(err.message, {
+            title: 'ERROR',
+            autoHideDelay: 3000,
+          });
+        }
+      });
+    },
+    editEvent(editedEvent) {
+      eventService.editEvent(editedEvent).then((event) => {
+        if (event) {
+          this.refresh();
+        }
+      }).catch((err) => {
+        if (!err.response.data.success) {
+        // Token is not authenticated or there is not a token.
+          this.$emit('logoutDash');
         } else {
           this.$bvToast.toast(err.message, {
             title: 'ERROR',
@@ -139,5 +151,6 @@ export default {
   padding-bottom: 2rem;
   border-bottom: 1px solid #b3b3b3;
   box-sizing: border-box;
+  background-color: darkgrey;
 }
 </style>

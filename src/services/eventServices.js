@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import axios from 'axios';
 
 export default {
@@ -30,8 +31,22 @@ export default {
 
   // Delete a single event
   deleteEvent(id) {
-    return axios.post('api/deleteEvent', {
+    return axios.post('/api/deleteEvent', {
       id,
+    },
+    {
+      headers: {
+        'x-access-token': localStorage.getItem('jwt'),
+      },
+    }).then(response => response.data);
+  },
+
+  // Edit an event for a user
+  editEvent(editedEvent) {
+    return axios.put('/api/editEvent', {
+      _id: editedEvent._id,
+      name: editedEvent.name,
+      date: editedEvent.date,
     },
     {
       headers: {
