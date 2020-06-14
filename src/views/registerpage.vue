@@ -35,14 +35,15 @@ export default {
     this.$emit('logoutBtn', false);
   },
   methods: {
-    // Submission call to db for login check
+    // Submission call to db for registration
     onRegister(event) {
       // Prevent immediate submission of form
       event.preventDefault();
 
-      // Call to server signin function
+      // Call to server register call
       userService.createUser(this.form.name, this.form.username, this.form.password).then((res) => {
         if (res.auth) {
+          // Set JSONWebToken in localStorage
           localStorage.setItem('user', res.user);
           localStorage.setItem('jwt', res.token);
           this.$router.push({ name: 'EventPage' });

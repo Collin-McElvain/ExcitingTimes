@@ -57,10 +57,11 @@ export default {
         });
         return;
       }
+      // Call to the backend to add event
       eventService.createEvent(this.addName, this.fullDate, this.user).then(
         (event) => {
           if (event) {
-            // Put new event here, and prevent extra call
+            // Refresh the events array with get call to the back end
             this.refresh();
             this.addName = '';
             this.addDate = '';
@@ -82,6 +83,7 @@ export default {
       eventService.deleteEvent(deleteEvent._id).then(
         (response) => {
           if (response) {
+            // Refresh the events array with get call to the back end
             this.refresh();
           }
         }).catch((err) => {
@@ -96,6 +98,7 @@ export default {
         }
       });
     },
+    // Calls a getall function in the backend to recieve all events by this user.
     refresh() {
       eventService.getEvents(this.user).then((events) => {
         if (events) {
@@ -113,9 +116,11 @@ export default {
         }
       });
     },
+    // Calls edit on backend to edit event
     editEvent(editedEvent) {
       eventService.editEvent(editedEvent).then((event) => {
         if (event) {
+          // Refresh the events array with get call to the back end
           this.refresh();
         }
       }).catch((err) => {
@@ -132,9 +137,11 @@ export default {
     },
   },
   computed: {
+    // Check if addTime should be disabled or not
     disabled() {
       return this.addDate === '';
     },
+    // Compute the full date
     fullDate() {
       return `${this.addDate} ${this.addTime}`;
     },

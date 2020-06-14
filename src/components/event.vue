@@ -38,10 +38,6 @@ const event = Vue.component('event', {
   data() {
     return {
       date: '',
-      // days: '',
-      // hours: '',
-      // minutes: '',
-      // seconds: '',
       daysDescription: 'Days',
       hoursDescription: 'Hours',
       minutesDescription: 'Minutes',
@@ -56,8 +52,10 @@ const event = Vue.component('event', {
     };
   },
   created() {
+    // Create an interval to update the distance value every second
     this.timer = setInterval(this.updateTime, 1000);
   },
+  // As the data is loaded
   beforeMount() {
     this.date = this.newEvent.date;
     this.editName = this.newEvent.name;
@@ -65,12 +63,13 @@ const event = Vue.component('event', {
     this.hId = `${this.newEvent._id}h`;
   },
   methods: {
-    // Update the time based on here to now
+    // Update the distance value based on date given and now
     // If date has passed change its color and text to DONE
     updateTime() {
       const date = new Date(this.newEvent.date).getTime();
       const now = new Date().getTime();
       this.distance = date - now;
+      // Date has passed
       if (this.distance < 0) {
         clearInterval(this.timer);
         const mainDiv = document.getElementById(this.newEvent._id);
@@ -83,6 +82,8 @@ const event = Vue.component('event', {
       this.$emit('item-deleted', { _id: this.newEvent._id });
     },
     onEdit() {
+
+      // Check if item has changed date or time.
       if (this.editDate !== '') {
         if (this.editTime !== '') {
           this.newEvent.date = `${this.editDate} ${this.editTime}`;
@@ -96,18 +97,21 @@ const event = Vue.component('event', {
     },
   },
   computed: {
+    // Change seconds only on distance update
     seconds() {
       if (this.distance < 0) {
         return 'E';
       }
       return Math.floor((this.distance % (1000 * 60)) / 1000);
     },
+    // Change seconds only on distance update
     minutes() {
       if (this.seconds === 'E') {
         return 'N';
       }
       return Math.floor((this.distance % (1000 * 60 * 60)) / (1000 * 60));
     },
+    // Change seconds only on distance update
     hours() {
       if (this.seconds === 'E') {
         return 'O';
@@ -116,6 +120,7 @@ const event = Vue.component('event', {
         (this.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
       );
     },
+    // Change seconds only on distance update
     days() {
       if (this.seconds === 'E') {
         return 'D';

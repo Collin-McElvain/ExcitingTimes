@@ -20,9 +20,12 @@ export default {
     };
   },
   methods: {
+    // Called when login, register, or eventDashboard emits true or false
+    // Based on value, it will show the logout button
     logoutBtn(value) {
       this.userVisible = value;
     },
+    // Called when any of the views emit logout
     logout() {
       localStorage.clear();
       this.$router.push({ name: 'login' });
