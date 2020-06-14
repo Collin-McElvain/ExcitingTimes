@@ -1,6 +1,8 @@
 # event-tracker
 
-> Track events by the minute
+> Track all your personal events and watch as the time goes by until the moment arrives
+
+> This project uses vue.js as its frontend and a vue router with JSONWebTokens to maintain authentication to its api.
 
 ## Build Setup
 
