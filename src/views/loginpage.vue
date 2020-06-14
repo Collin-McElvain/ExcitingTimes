@@ -46,7 +46,7 @@ export default {
         }
       }).catch((err) => {
         // Throw error back to user
-        this.$bvToast.toast(err.response.data.message, {
+        this.$bvToast.toast(err.response.data, {
           title: 'ERROR',
           autoHideDelay: 3000,
         });

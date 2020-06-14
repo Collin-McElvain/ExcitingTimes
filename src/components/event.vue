@@ -1,28 +1,29 @@
 <template>
-  <b-list-group-item :data-key="datakey" :id='divId'>
-    <h3 style="color: black; background-color: lightblue;" :id='hId'>{{ newEvent.name }}</h3>
-    <div class="container" >
+  <b-list-group-item :data-key="datakey" :id="divId">
+    <h3 style="color: black; background-color: lightblue;" :id="hId">{{ newEvent.name }}</h3>
+    <div class="container">
       <counter :time="days" :valueName="daysDescription"></counter>
       <counter :time="hours" :valueName="hoursDescription"></counter>
       <counter :time="minutes" :valueName="minutesDescription"></counter>
       <counter :time="seconds" :valueName="secondsDescription"></counter>
-      <b-button variant="danger" @click="onDelete">Delete</b-button>
+
       <b-dropdown id="dropdown-form" text="Edit" ref="dropdown" class="m-2">
         <b-dropdown-form>
           <b-form-group label="Event name" label-for="event-name" @submit.stop.prevent>
             <b-form-input id="event-name" size="sm" v-model="editName"></b-form-input>
           </b-form-group>
-          
+
           <b-form-group label="Date" label-for="event-date" @submit.stop.prevent>
             <b-form-input type="date" v-model="editDate"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Time" label-for="event-time" @submit.stop.prevent>
-            <b-form-input type='time' v-model="editTime" locale="en"></b-form-input>
+            <b-form-input type="time" v-model="editTime" locale="en"></b-form-input>
           </b-form-group>
           <b-button variant="primary" size="sm" @click="onEdit">DONE</b-button>
         </b-dropdown-form>
       </b-dropdown>
+      <b-button variant="danger" @click="onDelete">Delete</b-button>
     </div>
   </b-list-group-item>
 </template>
@@ -83,7 +84,11 @@ const event = Vue.component('event', {
     },
     onEdit() {
       if (this.editDate !== '') {
-        this.newEvent.date = `${this.editDate} ${this.editTime}`;
+        if (this.editTime !== '') {
+          this.newEvent.date = `${this.editDate} ${this.editTime}`;
+        } else {
+          this.newEvent.date = this.editDate;
+        }
       }
       this.newEvent.name = this.editName;
       this.$emit('item-edit', this.newEvent);
@@ -107,7 +112,9 @@ const event = Vue.component('event', {
       if (this.seconds === 'E') {
         return 'O';
       }
-      return Math.floor((this.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      return Math.floor(
+        (this.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
     },
     days() {
       if (this.seconds === 'E') {

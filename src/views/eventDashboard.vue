@@ -70,7 +70,7 @@ export default {
         // Token is not authenticated or there is not a token.
           this.$emit('logoutDash');
         } else {
-          this.$bvToast.toast(err.message, {
+          this.$bvToast.toast(err.response.data, {
             title: 'ERROR',
             autoHideDelay: 3000,
           });
@@ -89,7 +89,7 @@ export default {
         // Token is not authenticated or there is not a token.
           that.$emit('logoutDash');
         } else {
-          this.$bvToast.toast(err.message, {
+          this.$bvToast.toast(err.response.data, {
             title: 'ERROR',
             autoHideDelay: 3000,
           });
@@ -106,7 +106,7 @@ export default {
         // Token is not authenticated or there is not a token.
           this.$emit('logoutDash');
         } else {
-          this.$bvToast.toast(err.message, {
+          this.$bvToast.toast(err.response.data, {
             title: 'ERROR',
             autoHideDelay: 3000,
           });
@@ -123,7 +123,7 @@ export default {
         // Token is not authenticated or there is not a token.
           this.$emit('logoutDash');
         } else {
-          this.$bvToast.toast(err.message, {
+          this.$bvToast.toast(err.response.data, {
             title: 'ERROR',
             autoHideDelay: 3000,
           });
