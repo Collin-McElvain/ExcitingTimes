@@ -82,7 +82,6 @@ const event = Vue.component('event', {
       this.$emit('item-deleted', { _id: this.newEvent._id });
     },
     onEdit() {
-
       // Check if item has changed date or time.
       if (this.editDate !== '') {
         if (this.editTime !== '') {
