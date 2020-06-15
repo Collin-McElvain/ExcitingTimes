@@ -5,7 +5,7 @@
 
 ## Install
 
-    $ git clone https://github.com/Collin-McElvain/ExcitingTimes-Server.git
+    $ git clone https://github.com/Collin-McElvain/ExcitingTimes.git
     $ cd ExcitingTimes-Server
     $ npm install
 
